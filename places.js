@@ -18,22 +18,34 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  const { lat, lng, category = 'outdoors', radius = 10000, keyword } = req.query;
-
-  if (!lat || !lng) {
-    return res.status(400).json({ error: 'lat and lng are required' });
-  }
-
   if (!GOOGLE_API_KEY) {
     return res.status(500).json({ error: 'API key not configured' });
   }
 
-  try {
-    const types = CATEGORY_TYPES[category] || CATEGORY_TYPES.outdoors;
-    const results = [];
+  // ── GEOCODE endpoint: /api/places?action=geocode&address=Tampa,FL
+  const { action, address, latlng, lat, lng, category = 'outdoors', radius = 10000 } = req.query;
 
-    // Search with keyword or type
-    const searchKeyword = keyword || getCategoryKeyword(category);
+  if (action === 'geocode') {
+    try {
+      const url = new URL('https://maps.googleapis.com/maps/api/geocode/json');
+      if (address) url.searchParams.set('address', address);
+      if (latlng)  url.searchParams.set('latlng', latlng);
+      url.searchParams.set('key', GOOGLE_API_KEY);
+      const response = await fetch(url.toString());
+      const data = await response.json();
+      return res.status(200).json(data);
+    } catch (err) {
+      return res.status(500).json({ error: 'Geocoding failed' });
+    }
+  }
+
+  // ── PLACES endpoint: /api/places?lat=...&lng=...&category=...
+  if (!lat || !lng) {
+    return res.status(400).json({ error: 'lat and lng are required' });
+  }
+
+  try {
+    const searchKeyword = getCategoryKeyword(category);
     const url = new URL('https://maps.googleapis.com/maps/api/place/nearbysearch/json');
     url.searchParams.set('location', `${lat},${lng}`);
     url.searchParams.set('radius', radius);
