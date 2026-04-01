@@ -483,9 +483,9 @@ async function searchByCity() {
   if (!val) return;
   showLoading();
   try {
-    // Geocode city name to lat/lng using Google Geocoding
+    // Geocode city name to lat/lng via our secure serverless proxy
     const geoRes = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(val)}&key=AIzaSyCXEenQiVDsilvOQFrqvkuJgElI-ZRcoe0`
+      `/api/places?action=geocode&address=${encodeURIComponent(val)}`
     );
     const geoData = await geoRes.json();
     if (geoData.status !== 'OK' || !geoData.results.length) {
@@ -515,7 +515,7 @@ function detectLocation() {
       // Reverse geocode
       try {
         const res = await fetch(
-          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyCXEenQiVDsilvOQFrqvkuJgElI-ZRcoe0`
+          `/api/places?action=geocode&latlng=${lat},${lng}`
         );
         const data = await res.json();
         const comp = data.results?.[0]?.address_components || [];
