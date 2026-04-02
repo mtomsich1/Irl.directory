@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Go Outside / irl.directory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1c1a16;
+    --paper: #f5f0e8;
+    --paper-dark: #ede6d6;
+    --moss: #4a6741;
+    --moss-light: #6b8f61;
+    --amber: #c8832a;
+    --amber-light: #e9a94a;
+    --cream: #faf7f0;
+    --muted: #7a7060;
+    --border: #c8bfa8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--moss);
+    color: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+  .header-texture {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Ccircle cx='40' cy='40' r='1.5' fill='%23fff' opacity='0.05'/%3E%3Ccircle cx='10' cy='10' r='1' fill='%23fff' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .header-inner {
+    position: relative;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 48px 32px 40px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .logo-eyebrow {
+    font-family: 'Caveat', cursive;
+    font-size: 18px;
+    color: var(--amber-light);
+    margin-bottom: 4px;
+  }
+  .logo-main {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+  }
+  .logo-main em { font-style: italic; color: var(--amber-light); }
+  .nav-link {
+    color: rgba(250,247,240,0.7);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-bottom: 1.5px solid rgba(250,247,240,0.3);
+    padding-bottom: 2px;
+    transition: color 0.2s;
+    align-self: flex-end;
+  }
+  .nav-link:hover { color: var(--amber-light); }
+
+  /* ── MAIN ── */
+  .main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 56px 32px 80px;
+  }
+
+  /* ── OPENING ── */
+  .opening {
+    margin-bottom: 64px;
+    border-left: 4px solid var(--amber);
+    padding-left: 28px;
+  }
+  .opening-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 20px;
+    color: var(--ink);
+  }
+  .opening-title em {
+    font-style: italic;
+    color: var(--moss);
+  }
+  .opening p {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--ink);
+    margin-bottom: 16px;
+    max-width: 680px;
+  }
+  .opening p:last-child { margin-bottom: 0; }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 64px;
+  }
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+  .section p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--ink);
+    margin-bottom: 16px;
+    max-width: 700px;
+  }
+
+  /* ── BALANCE TABLE ── */
+  .balance-intro {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--ink);
+    margin-bottom: 28px;
+    max-width: 700px;
+  }
+
+  .balance-grid {
+    display: grid;
+    gap: 16px;
+  }
+
+  .balance-row {
+    background: var(--cream);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 56px 1fr 1fr;
+    gap: 16px;
+    align-items: start;
+    transition: box-shadow 0.2s;
+  }
+  .balance-row:hover {
+    box-shadow: 0 4px 20px rgba(28,26,22,0.08);
+  }
+
+  .balance-icon {
+    font-size: 32px;
+    line-height: 1;
+    padding-top: 4px;
+  }
+
+  .balance-problem {}
+  .balance-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .balance-problem-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .balance-problem-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .balance-remedy {}
+  .balance-remedy-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--moss);
+    margin-bottom: 4px;
+  }
+  .balance-remedy-why {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .balance-remedy-tag {
+    display: inline-block;
+    margin-top: 6px;
+    background: var(--paper-dark);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── CLOSING ── */
+  .closing {
+    background: var(--moss);
+    color: var(--cream);
+    border-radius: 16px;
+    padding: 40px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .closing::before {
+    content: '🌿';
+    position: absolute;
+    font-size: 120px;
+    right: -20px;
+    bottom: -20px;
+    opacity: 0.15;
+    line-height: 1;
+  }
+  .closing-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  .closing-title em {
+    font-style: italic;
+    color: var(--amber-light);
+  }
+  .closing p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: rgba(250,247,240,0.85);
+    max-width: 580px;
+    margin-bottom: 24px;
+  }
+  .closing-btn {
+    display: inline-block;
+    background: var(--amber);
+    color: var(--cream);
+    text-decoration: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: background 0.2s;
+  }
+  .closing-btn:hover { background: var(--amber-light); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(250,247,240,0.5);
+    text-align: center;
+    padding: 32px;
+    font-size: 13px;
+    line-height: 1.9;
+  }
+  footer strong { color: var(--cream); font-family: 'Playfair Display', serif; font-size: 16px; }
+  footer a { color: var(--amber-light); text-decoration: none; }
+
+  @media (max-width: 640px) {
+    .header-inner, .main { padding-left: 20px; padding-right: 20px; }
+    .balance-row { grid-template-columns: 44px 1fr; }
+    .balance-remedy { grid-column: 2; }
+    .closing { padding: 28px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-texture"></div>
+  <div class="header-inner">
+    <div>
+      <div class="logo-eyebrow">✦ irl.directory</div>
+      <div class="logo-main">Go <em>Outside.</em></div>
+    </div>
+    <a class="nav-link" href="/">← Find Activities</a>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- OPENING -->
+  <div class="opening">
+    <div class="opening-title">You already know.<br>That's why you're <em>here.</em></div>
+    <p>Online life isn't the enemy. It's how we work, stay connected, learn things, and yes — decompress. Nobody's arguing with that.</p>
+    <p>But the brain wasn't built for eight hours of screens. It needs dirt under its feet sometimes. It needs to make something with its hands, feel weather on its face, look someone in the eye, do something where failure is real and so is success.</p>
+    <p>If something feels off — in yourself, in your kid, in someone you love — there's a good chance the offline world has some of the answer. This directory exists to help you find it.</p>
+  </div>
+
+  <!-- SCIENCE SECTION -->
+  <div class="section">
+    <div class="section-eyebrow">What the research says</div>
+    <div class="section-title">The brain online vs. the brain outside</div>
+    <p>Screens — especially social media and gaming — engage the brain's dopamine reward system in ways that are specifically designed to keep you coming back. The variable reward cycle (will I get likes? will I level up?) mirrors the same neurological loops as other behavioral addictions. This isn't a moral failing. It's engineering.</p>
+    <p>The good news is that the brain is also specifically responsive to real-world inputs. Physical exertion, face-to-face connection, creative making, time in nature — these aren't vague feel-good suggestions. Research consistently shows they restore the attention, regulate the mood, and rebuild the sense of self that heavy screen time erodes.</p>
+    <p>Some of those connections are surprisingly specific.</p>
+  </div>
+
+  <!-- BALANCE TABLE -->
+  <div class="section">
+    <div class="section-eyebrow">The balance guide</div>
+    <div class="section-title">If this is happening → try this</div>
+    <p class="balance-intro">These aren't prescriptions — just patterns that show up consistently in the research. Use the icons to filter activities in the directory.</p>
+
+    <div class="balance-grid">
+
+      <div class="balance-row">
+        <div class="balance-icon">🎮</div>
+        <div class="balance-problem">
+          <div class="balance-label">Online behavior</div>
+          <div class="balance-problem-name">Gaming overload</div>
+          <div class="balance-problem-desc">Irritability when not playing. Withdrawing from family. Losing track of time. Grades or work slipping.</div>
+        </div>
+        <div class="balance-remedy">
+          <div class="balance-label">Real-world reset</div>
+          <div class="balance-remedy-name">Physical challenge + unpredictability</div>
+          <div class="balance-remedy-why">Rock climbing, team sports, martial arts. Activities where outcomes are real, stakes are real, and you can't respawn. Re-trains the reward system with natural dopamine.</div>
+          <span class="balance-remedy-tag">🏃 Sports & Movement</span>
+          <span class="balance-remedy-tag">🌿 Outdoors</span>
+        </div>
+      </div>
+
+      <div class="balance-row">
+        <div class="balance-icon">📱</div>
+        <div class="balance-problem">
+          <div class="balance-label">Online behavior</div>
+          <div class="balance-problem-name">Social media spiral</div>
+          <div class="balance-problem-desc">Comparing your life to curated highlight reels. Self-esteem tied to likes. Feeling worse after scrolling, scrolling anyway.</div>
+        </div>
+        <div class="balance-remedy">
+          <div class="balance-label">Real-world reset</div>
+          <div class="balance-remedy-name">Face-to-face creative collaboration</div>
+          <div class="balance-remedy-why">Art classes, improv, cooking with others, open mics. Making things with real people rebuilds the oxytocin-driven connection that parasocial media relationships quietly erode.</div>
+          <span class="balance-remedy-tag">🎨 Arts & Crafts</span>
+          <span class="balance-remedy-tag">🎲 Social & Games</span>
+        </div>
+      </div>
+
+      <div class="balance-row">
+        <div class="balance-icon">📰</div>
+        <div class="balance-problem">
+          <div class="balance-label">Online behavior</div>
+          <div class="balance-problem-name">Doomscrolling</div>
+          <div class="balance-problem-desc">Compulsive news checking. Feeling helpless or anxious about things you can't control. Trouble stepping away from bad news.</div>
+        </div>
+        <div class="balance-remedy">
+          <div class="balance-label">Real-world reset</div>
+          <div class="balance-remedy-name">Tangible impact — volunteering & gardening</div>
+          <div class="balance-remedy-why">Doing something where your effort visibly matters — feeding people, growing food, building things — directly counters the learned helplessness that doomscrolling creates.</div>
+          <span class="balance-remedy-tag">🤝 Volunteering</span>
+          <span class="balance-remedy-tag">🌿 Outdoors</span>
+        </div>
+      </div>
+
+      <div class="balance-row">
+        <div class="balance-icon">🧠</div>
+        <div class="balance-problem">
+          <div class="balance-label">Online behavior</div>
+          <div class="balance-problem-name">Attention fragmentation</div>
+          <div class="balance-problem-desc">Can't read a full article. Losing focus mid-conversation. Brain feels scattered. Short-form content has become the only format that holds attention.</div>
+        </div>
+        <div class="balance-remedy">
+          <div class="balance-label">Real-world reset</div>
+          <div class="balance-remedy-name">Soft fascination — nature & slow activities</div>
+          <div class="balance-remedy-why">Hiking, fishing, birdwatching. "Soft fascination" (a term from Attention Restoration Theory) gently engages the mind without demanding the vigilant focus screens require — letting the prefrontal cortex recover.</div>
+          <span class="balance-remedy-tag">🌿 Outdoors</span>
+          <span class="balance-remedy-tag">🧘 Wellness</span>
+        </div>
+      </div>
+
+      <div class="balance-row">
+        <div class="balance-icon">👍</div>
+        <div class="balance-problem">
+          <div class="balance-label">Online behavior</div>
+          <div class="balance-problem-name">Identity tied to metrics</div>
+          <div class="balance-problem-desc">Self-worth measured in followers, views, engagement. Performing for an audience rather than living. Crushing anxiety when content doesn't land.</div>
+        </div>
+        <div class="balance-remedy">
+          <div class="balance-label">Real-world reset</div>
+          <div class="balance-remedy-name">Live performance & unfiltered feedback</div>
+          <div class="balance-remedy-why">Improv, theater, open mics. Getting real, unmediated human reaction — laughter, applause, a shared moment — rebuilds a sense of self that doesn't depend on an algorithm's approval.</div>
+          <span class="balance-remedy-tag">🎲 Social & Games</span>
+          <span class="balance-remedy-tag">🎨 Arts & Crafts</span>
+        </div>
+      </div>
+
+      <div class="balance-row">
+        <div class="balance-icon">🪑</div>
+        <div class="balance-problem">
+          <div class="balance-label">Online behavior</div>
+          <div class="balance-problem-name">Sedentary screen life</div>
+          <div class="balance-problem-desc">Hours pass without moving. Body feels disconnected. Sleep is off. Energy is low. The body has become a device holder.</div>
+        </div>
+        <div class="balance-remedy">
+          <div class="balance-label">Real-world reset</div>
+          <div class="balance-remedy-name">Any physical exertion — especially outdoors</div>
+          <div class="balance-remedy-why">Research is unambiguous here. Even replacing one hour of screen time with outdoor physical activity significantly improves mood, sleep, and anxiety levels. The bar is low. Just move.</div>
+          <span class="balance-remedy-tag">🏃 Sports & Movement</span>
+          <span class="balance-remedy-tag">🌿 Outdoors</span>
+        </div>
+      </div>
+
+      <div class="balance-row">
+        <div class="balance-icon">👦</div>
+        <div class="balance-problem">
+          <div class="balance-label">Online behavior</div>
+          <div class="balance-problem-name">Kids & teen digital overload</div>
+          <div class="balance-problem-desc">Personality changes. Social withdrawal. Losing interest in things they used to love. The screen has become the only place they want to be.</div>
+        </div>
+        <div class="balance-remedy">
+          <div class="balance-label">Real-world reset</div>
+          <div class="balance-remedy-name">Unstructured outdoor play + group experiences</div>
+          <div class="balance-remedy-why">Nature trips, team sports, classes with peers. The developing brain especially needs unscripted real-world outcomes — weather, other people, physical consequence — to build emotional regulation and confidence.</div>
+          <span class="balance-remedy-tag">🌿 Outdoors</span>
+          <span class="balance-remedy-tag">🏃 Sports & Movement</span>
+          <span class="balance-remedy-tag">📚 Learning</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CLOSING -->
+  <div class="closing">
+    <div class="closing-title">No judgment. <em>Just a map.</em></div>
+    <p>Everyone's relationship with screens is different. This isn't about quitting anything — it's about balance, and balance looks different for everyone. If you know what's pulling at you, use the guide above to find activities that push back. If you're just browsing, start anywhere. Something real is waiting.</p>
+    <a class="closing-btn" href="/">Find something to do →</a>
+  </div>
+
+</div>
+
+<footer>
+  <strong>Go Outside.</strong><br>
+  A directory for real-world experiences. No ads. No algorithms. Just life.<br>
+  <a href="/">Find Activities</a> &nbsp;·&nbsp; <a href="/about.html">About</a> &nbsp;·&nbsp; <a href="#">Submit a Listing</a>
+</footer>
+
+</body>
+</html>
