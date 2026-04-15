@@ -71,7 +71,7 @@ export default async function handler(req, res) {
         ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place.photos[0].photo_reference}&key=${GOOGLE_API_KEY}`
         : null,
       openNow: place.opening_hours?.open_now,
-      mapsUrl: `https://www.google.com/maps/place/?q=place_id:${place.place_id}`,
+      mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.name)}&query_place_id=${place.place_id}`,
       priceLevel: place.price_level,
     }));
 
