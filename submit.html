@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Submit a Hidden Gem — Go Outside / irl.directory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1c1a16;
+    --paper: #f5f0e8;
+    --paper-dark: #ede6d6;
+    --moss: #4a6741;
+    --moss-light: #6b8f61;
+    --amber: #c8832a;
+    --amber-light: #e9a94a;
+    --cream: #faf7f0;
+    --muted: #7a7060;
+    --border: #c8bfa8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--moss);
+    color: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+  .header-texture {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Ccircle cx='40' cy='40' r='1.5' fill='%23fff' opacity='0.05'/%3E%3Ccircle cx='10' cy='10' r='1' fill='%23fff' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .header-inner {
+    position: relative;
+    max-width: 860px; margin: 0 auto;
+    padding: 48px 32px 40px;
+    display: flex; align-items: flex-end;
+    justify-content: space-between; gap: 24px; flex-wrap: wrap;
+  }
+  .logo-eyebrow { font-family: 'Caveat', cursive; font-size: 18px; color: var(--amber-light); margin-bottom: 4px; }
+  .logo-main { font-family: 'Playfair Display', serif; font-size: clamp(36px, 6vw, 64px); font-weight: 900; line-height: 0.9; letter-spacing: -0.02em; color: var(--cream); }
+  .logo-main em { font-style: italic; color: var(--amber-light); }
+  .nav-link { color: rgba(250,247,240,0.7); text-decoration: none; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 1.5px solid rgba(250,247,240,0.3); padding-bottom: 2px; transition: color 0.2s; align-self: flex-end; }
+  .nav-link:hover { color: var(--amber-light); }
+
+  /* ── MAIN ── */
+  .main { max-width: 700px; margin: 0 auto; padding: 56px 32px 80px; }
+
+  /* ── INTRO ── */
+  .intro { margin-bottom: 48px; }
+  .intro-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); margin-bottom: 10px; }
+  .intro-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 40px); font-weight: 700; line-height: 1.15; margin-bottom: 16px; color: var(--ink); }
+  .intro-title em { font-style: italic; color: var(--moss); }
+  .intro p { font-size: 16px; line-height: 1.75; color: var(--muted); max-width: 580px; }
+
+  /* ── FORM ── */
+  .form-card {
+    background: var(--cream);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+  }
+
+  .form-group { margin-bottom: 28px; }
+
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  label span.required { color: var(--amber); margin-left: 2px; }
+  label span.hint { font-size: 11px; font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--muted); margin-left: 6px; font-style: italic; }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="url"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--paper);
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--moss);
+    box-shadow: 0 0 0 3px rgba(74,103,65,0.1);
+  }
+  input::placeholder, textarea::placeholder { color: var(--border); }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7060' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+
+  textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+
+  /* Checkbox group */
+  .checkbox-group { display: flex; flex-wrap: wrap; gap: 10px; }
+  .checkbox-item { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+  .checkbox-item input[type="checkbox"] {
+    width: 18px; height: 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    background: var(--paper);
+    cursor: pointer;
+    accent-color: var(--moss);
+  }
+  .checkbox-item span { font-size: 14px; font-weight: 400; color: var(--ink); }
+
+  /* Problem tags checkboxes */
+  .problem-check-group { display: flex; flex-wrap: wrap; gap: 10px; }
+  .problem-check-item {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 100px;
+    border: 1.5px solid var(--border); background: var(--paper);
+    cursor: pointer; transition: all 0.18s;
+    font-size: 13px; font-weight: 700; color: var(--muted);
+    user-select: none;
+  }
+  .problem-check-item input { display: none; }
+  .problem-check-item:has(input:checked) {
+    background: var(--amber); border-color: var(--amber); color: var(--cream);
+  }
+
+  /* Two column row */
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  /* Submit button */
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--moss);
+    color: var(--cream);
+    border: none;
+    border-radius: 10px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+  }
+  .submit-btn:hover { background: var(--moss-light); }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* Success state */
+  .success-state {
+    display: none;
+    text-align: center;
+    padding: 48px 32px;
+  }
+  .success-icon { font-size: 56px; margin-bottom: 16px; }
+  .success-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; margin-bottom: 12px; color: var(--moss); }
+  .success-sub { font-size: 16px; line-height: 1.7; color: var(--muted); margin-bottom: 28px; }
+  .back-link { display: inline-block; color: var(--moss); font-weight: 700; font-size: 14px; text-decoration: none; letter-spacing: 0.04em; border-bottom: 1.5px solid var(--moss); padding-bottom: 2px; }
+
+  /* ── FOOTER ── */
+  footer { background: var(--ink); color: rgba(250,247,240,0.5); text-align: center; padding: 32px; font-size: 13px; line-height: 1.9; }
+  footer strong { color: var(--cream); font-family: 'Playfair Display', serif; font-size: 16px; }
+  footer a { color: var(--amber-light); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .header-inner, .main { padding-left: 20px; padding-right: 20px; }
+    .form-card { padding: 24px 20px; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-texture"></div>
+  <div class="header-inner">
+    <div>
+      <div class="logo-eyebrow">✦ irl.directory</div>
+      <div class="logo-main">Go <em>Outside.</em></div>
+    </div>
+    <a class="nav-link" href="/">← Find Activities</a>
+  </div>
+</header>
+
+<div class="main">
+
+  <div class="intro">
+    <div class="intro-eyebrow">Community</div>
+    <div class="intro-title">Know a <em>Hidden Gem?</em></div>
+    <p>The best real-life experiences aren't always on Google. If you know a spot, a class, an event, or a place that deserves more attention — tell us about it. We review every submission and add the good ones to the directory.</p>
+  </div>
+
+  <div class="form-card" id="formCard">
+    <form id="gemForm" action="https://formspree.io/f/xojywvpv" method="POST">
+
+      <!-- Name of the place -->
+      <div class="form-group">
+        <label for="gem_name">Name of the place or activity <span class="required">*</span></label>
+        <input type="text" id="gem_name" name="gem_name" placeholder="e.g. Paleo Discoveries, Curtis Hixon Yoga, etc." required />
+      </div>
+
+      <!-- Location -->
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0">
+          <label for="gem_city">City <span class="required">*</span></label>
+          <input type="text" id="gem_city" name="gem_city" placeholder="Tampa" required />
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label for="gem_state">State <span class="required">*</span></label>
+          <input type="text" id="gem_state" name="gem_state" placeholder="FL" required />
+        </div>
+      </div>
+      <div style="margin-bottom:28px"></div>
+
+      <!-- Is it a day trip? -->
+      <div class="form-group">
+        <label for="gem_daytrip">Is this a day trip from nearby cities?
+          <span class="hint">optional</span>
+        </label>
+        <input type="text" id="gem_daytrip" name="gem_daytrip" placeholder="e.g. Within 2 hours of Tampa, Orlando, and Sarasota" />
+      </div>
+
+      <!-- Category -->
+      <div class="form-group">
+        <label>Category <span class="required">*</span> <span class="hint">check all that apply</span></label>
+        <div class="checkbox-group">
+          <label class="checkbox-item"><input type="checkbox" name="category" value="Outdoors"><span>🌿 Outdoors</span></label>
+          <label class="checkbox-item"><input type="checkbox" name="category" value="Arts & Crafts"><span>🎨 Arts & Crafts</span></label>
+          <label class="checkbox-item"><input type="checkbox" name="category" value="Sports & Movement"><span>⚽ Sports & Movement</span></label>
+          <label class="checkbox-item"><input type="checkbox" name="category" value="Social & Games"><span>🎲 Social & Games</span></label>
+          <label class="checkbox-item"><input type="checkbox" name="category" value="Volunteering"><span>🤝 Volunteering</span></label>
+          <label class="checkbox-item"><input type="checkbox" name="category" value="Food & Cooking"><span>🍳 Food & Cooking</span></label>
+          <label class="checkbox-item"><input type="checkbox" name="category" value="Learning"><span>📚 Learning</span></label>
+          <label class="checkbox-item"><input type="checkbox" name="category" value="Wellness"><span>🧘 Wellness</span></label>
+        </div>
+      </div>
+
+      <!-- Good for -->
+      <div class="form-group">
+        <label>Good for… <span class="hint">optional — check any that apply</span></label>
+        <div class="problem-check-group">
+          <label class="problem-check-item"><input type="checkbox" name="good_for" value="Gaming Overload">🎮 Gaming Overload</label>
+          <label class="problem-check-item"><input type="checkbox" name="good_for" value="Social Media">📱 Social Media</label>
+          <label class="problem-check-item"><input type="checkbox" name="good_for" value="Doomscrolling">📰 Doomscrolling</label>
+          <label class="problem-check-item"><input type="checkbox" name="good_for" value="Screen Fatigue">🧠 Screen Fatigue</label>
+          <label class="problem-check-item"><input type="checkbox" name="good_for" value="Likes & Metrics">👍 Likes & Metrics</label>
+          <label class="problem-check-item"><input type="checkbox" name="good_for" value="Sedentary Life">🪑 Sedentary Life</label>
+          <label class="problem-check-item"><input type="checkbox" name="good_for" value="Kids & Teens">👦 Kids & Teens</label>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="form-group">
+        <label for="gem_desc">Tell us about it <span class="required">*</span> <span class="hint">why is this a hidden gem?</span></label>
+        <textarea id="gem_desc" name="gem_desc" rows="4" placeholder="What makes this place special? What should someone know before going?" required></textarea>
+      </div>
+
+      <!-- Website -->
+      <div class="form-group">
+        <label for="gem_url">Website or link <span class="hint">optional</span></label>
+        <input type="url" id="gem_url" name="gem_url" placeholder="https://" />
+      </div>
+
+      <!-- Cost -->
+      <div class="form-group">
+        <label for="gem_cost">Cost <span class="hint">optional</span></label>
+        <input type="text" id="gem_cost" name="gem_cost" placeholder="e.g. Free, $20/person, Varies" />
+      </div>
+
+      <!-- Submitter info -->
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0">
+          <label for="submitter_name">Your name <span class="hint">optional</span></label>
+          <input type="text" id="submitter_name" name="submitter_name" placeholder="First name is fine" />
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label for="submitter_email">Your email <span class="hint">optional</span></label>
+          <input type="email" id="submitter_email" name="submitter_email" placeholder="so we can credit you" />
+        </div>
+      </div>
+      <div style="margin-bottom:28px"></div>
+
+      <!-- Hidden spam trap -->
+      <input type="text" name="_gotcha" style="display:none" />
+
+      <button type="submit" class="submit-btn" id="submitBtn">Submit This Gem ✦</button>
+
+    </form>
+
+    <!-- Success message -->
+    <div class="success-state" id="successState">
+      <div class="success-icon">🌿</div>
+      <div class="success-title">Thank you!</div>
+      <div class="success-sub">We got your submission and we'll review it shortly.<br>If it's a good fit we'll add it to the directory.</div>
+      <a class="back-link" href="/">← Back to the directory</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <strong>Go Outside.</strong><br>
+  A directory for real-world experiences. No ads. No algorithms. Just life.<br>
+  <a href="/">Find Activities</a> &nbsp;·&nbsp; <a href="/about.html">About</a> &nbsp;·&nbsp; <a href="/submit.html">Submit a Gem</a>
+</footer>
+
+<script>
+document.getElementById('gemForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(this.action, {
+      method: 'POST',
+      body: new FormData(this),
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (res.ok) {
+      document.getElementById('gemForm').style.display = 'none';
+      document.getElementById('successState').style.display = 'block';
+    } else {
+      btn.textContent = 'Submit This Gem ✦';
+      btn.disabled = false;
+      alert('Something went wrong. Please try again.');
+    }
+  } catch(err) {
+    btn.textContent = 'Submit This Gem ✦';
+    btn.disabled = false;
+    alert('Something went wrong. Please try again.');
+  }
+});
+</script>
+
+</body>
+</html>
