@@ -1,7 +1,5 @@
-
 const GOOGLE_API_KEY = process.env.GOOGLE_PLACES_API_KEY;
 
-// IRL-relevant place types mapped to our categories
 const CATEGORY_TYPES = {
   outdoors:  ['park', 'natural_feature', 'campground', 'rv_park', 'marina'],
   arts:      ['art_gallery', 'museum', 'painter', 'ceramic_store'],
@@ -13,8 +11,64 @@ const CATEGORY_TYPES = {
   wellness:  ['spa', 'yoga', 'health', 'gym'],
 };
 
+// Problem icons:
+// 🎮 gaming-detox
+// 📱 social-reset
+// 📰 doom-detox
+// 🧠 brain-recharge
+// 👍 identity-reset
+// 🪑 body-wakeup
+// 👦 kid-reset
+
+function getProblemTags(types, category) {
+  const tags = new Set();
+  const t = types || [];
+  const c = category || '';
+
+  // Outdoors / nature → brain recharge, body wakeup, kid reset, doom detox
+  if (c === 'outdoors' || t.some(x => ['park','natural_feature','campground','hiking_area','forest','nature_reserve'].includes(x))) {
+    tags.add('🧠'); tags.add('🪑'); tags.add('👦'); tags.add('📰');
+  }
+
+  // Sports / physical → gaming detox, body wakeup, kid reset
+  if (c === 'sports' || t.some(x => ['gym','stadium','bowling_alley','rock_climbing','tennis_court','swimming_pool','golf_course','sports_club','fitness_center'].includes(x))) {
+    tags.add('🎮'); tags.add('🪑'); tags.add('👦');
+  }
+
+  // Arts / crafts / creative → social reset, identity reset
+  if (c === 'arts' || t.some(x => ['art_gallery','museum','painter','ceramic_store','art_studio'].includes(x))) {
+    tags.add('📱'); tags.add('👍');
+  }
+
+  // Social / games / performance → social reset, identity reset, gaming detox
+  if (c === 'social' || t.some(x => ['bowling_alley','amusement_park','escape_room','night_club','bar','comedy_club'].includes(x))) {
+    tags.add('📱'); tags.add('👍'); tags.add('🎮');
+  }
+
+  // Volunteer / community → doom detox
+  if (c === 'volunteer' || t.some(x => ['food_bank','local_government_office','community_center','place_of_worship'].includes(x))) {
+    tags.add('📰'); tags.add('🪑');
+  }
+
+  // Food / cooking → social reset, body wakeup
+  if (c === 'food' || t.some(x => ['bakery','cooking_school','meal_kit','restaurant'].includes(x))) {
+    tags.add('📱'); tags.add('🪑');
+  }
+
+  // Learning / library → brain recharge, doom detox
+  if (c === 'learning' || t.some(x => ['library','university','school','book_store'].includes(x))) {
+    tags.add('🧠'); tags.add('📰');
+  }
+
+  // Wellness / yoga / spa → brain recharge, social reset, body wakeup
+  if (c === 'wellness' || t.some(x => ['spa','yoga','health','meditation_center'].includes(x))) {
+    tags.add('🧠'); tags.add('📱'); tags.add('🪑');
+  }
+
+  return Array.from(tags);
+}
+
 export default async function handler(req, res) {
-  // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   if (req.method === 'OPTIONS') return res.status(200).end();
@@ -23,9 +77,9 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'API key not configured' });
   }
 
-  // ── GEOCODE endpoint: /api/places?action=geocode&address=Tampa,FL
   const { action, address, latlng, lat, lng, category = 'outdoors', radius = 10000 } = req.query;
 
+  // ── GEOCODE
   if (action === 'geocode') {
     try {
       const url = new URL('https://maps.googleapis.com/maps/api/geocode/json');
@@ -40,7 +94,7 @@ export default async function handler(req, res) {
     }
   }
 
-  // ── PLACES endpoint: /api/places?lat=...&lng=...&category=...
+  // ── PLACES
   if (!lat || !lng) {
     return res.status(400).json({ error: 'lat and lng are required' });
   }
@@ -67,6 +121,7 @@ export default async function handler(req, res) {
       rating: place.rating,
       userRatingsTotal: place.user_ratings_total,
       types: place.types,
+      problemTags: getProblemTags(place.types, category),
       photo: place.photos?.[0]
         ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place.photos[0].photo_reference}&key=${GOOGLE_API_KEY}`
         : null,
