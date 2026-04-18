@@ -344,6 +344,7 @@ const HIDDEN_GEMS = [
     desc: "Local grown, community oriented U-Pick blueberry farm. Pick your own fresh blueberries straight from the field.",
     tags: ["U-Pick", "Family-Friendly", "Seasonal"],
     address: "Dade City, FL",
+    url: "https://www.royalbluesfarm.com/",
     lat: 28.3644, lng: -82.1959,
     radius: 60,
     problemTags: ["👦", "🪑", "📰"],
@@ -453,6 +454,8 @@ function renderGems() {
         <div class="card-footer">
           <span class="card-address">📍 ${g.address}</span>
         </div>
+        ${g.url ? `<a class="card-link" href="${g.url}" target="_blank" rel="noopener">Visit Website →</a>` : ''}
+        <a class="card-link" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(g.name + ' ' + g.address)}" target="_blank" rel="noopener" style="margin-top:4px">View on Google Maps →</a>
       </div>
     </div>`;
   }).join('');
