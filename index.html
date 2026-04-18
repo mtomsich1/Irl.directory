@@ -300,6 +300,8 @@ const HIDDEN_GEMS = [
     desc: "Informal games every Sunday morning. All skill levels, all ages. Just show up in cleats.",
     tags: ["Free", "Weekly", "All Ages"],
     address: "Tampa, FL",
+    lat: 27.9506, lng: -82.4572,
+    radius: 30,
     problemTags: ["🎮", "🪑", "👦"],
     isGem: true,
   },
@@ -309,6 +311,8 @@ const HIDDEN_GEMS = [
     desc: "Help tend a food garden that donates to local food banks. Meditative, purposeful work outside.",
     tags: ["Free", "Volunteer", "Outdoor"],
     address: "Seminole Heights, Tampa FL",
+    lat: 27.9956, lng: -82.4696,
+    radius: 30,
     problemTags: ["📰", "🪑"],
     isGem: true,
   },
@@ -318,7 +322,20 @@ const HIDDEN_GEMS = [
     desc: "Free outdoor yoga every Tuesday and Thursday at 7am. Bring a mat. Watch the river wake up.",
     tags: ["Free", "Weekly", "All Levels"],
     address: "Downtown Tampa, FL",
+    lat: 27.9477, lng: -82.4584,
+    radius: 30,
     problemTags: ["🧠", "📱", "🪑"],
+    isGem: true,
+  },
+  {
+    name: "Paleo Discoveries",
+    category: "learning",
+    desc: "Dig for real fossils along a Florida river with an expert guide. One of the state's best kept secrets — you keep what you find. Meet in Wauchula, then follow the guide to the river.",
+    tags: ["Day Trip", "Family-Friendly", "Hands-On", "Unique"],
+    address: "Wauchula, FL",
+    lat: 27.576153, lng: -81.803907,
+    radius: 120,
+    problemTags: ["👦", "🧠", "🪑"],
     isGem: true,
   },
 ];
@@ -363,21 +380,51 @@ function setCategory(id) {
   renderGems();
 }
 
+// ── DISTANCE HELPER ──────────────────────────────────────
+function milesApart(lat1, lng1, lat2, lng2) {
+  const R = 3958.8; // Earth radius in miles
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLng/2) * Math.sin(dLng/2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
 // ── HIDDEN GEMS ──────────────────────────────────────────
 function renderGems() {
   let filtered = HIDDEN_GEMS.filter(g => g.category === activeCategory);
+
+  // Filter by distance if we have user coords
+  if (currentCoords) {
+    filtered = filtered.filter(g => {
+      if (!g.lat || !g.lng) return true; // no coords = always show
+      const dist = milesApart(currentCoords.lat, currentCoords.lng, g.lat, g.lng);
+      return dist <= (g.radius || 30);
+    });
+  }
+
+  // Filter by active problem
   if (activeProblem) {
     const icon = PROBLEM_ICON_MAP[activeProblem];
     filtered = filtered.filter(g => g.problemTags && g.problemTags.includes(icon));
   }
+
   const section = document.getElementById('gemsSection');
   if (filtered.length === 0) { section.style.display = 'none'; return; }
   section.style.display = 'block';
-  document.getElementById('gemsGrid').innerHTML = filtered.map((g, i) => `
+  document.getElementById('gemsGrid').innerHTML = filtered.map((g, i) => {
+    // Calculate distance label if coords available
+    let distLabel = '';
+    if (currentCoords && g.lat && g.lng) {
+      const dist = Math.round(milesApart(currentCoords.lat, currentCoords.lng, g.lat, g.lng));
+      distLabel = dist > 20 ? `🚗 ~${dist} mi away` : '';
+    }
+    return `
     <div class="listing-card cat-${g.category}" style="animation-delay:${i*0.06}s">
       <div class="card-color-bar"></div>
       <div class="card-body">
-        <div class="card-gem-badge">✦ Hidden Gem</div>
+        <div class="card-gem-badge">✦ Hidden Gem${distLabel ? ` &nbsp;·&nbsp; ${distLabel}` : ''}</div>
         <div class="card-category">${g.category}</div>
         <div class="card-name">${g.name}</div>
         <div class="card-desc">${g.desc}</div>
@@ -392,8 +439,8 @@ function renderGems() {
           <span class="card-address">📍 ${g.address}</span>
         </div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 // ── LOCATION ─────────────────────────────────────────────
